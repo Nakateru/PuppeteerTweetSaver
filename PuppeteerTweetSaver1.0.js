@@ -6,7 +6,7 @@ const readline = require('readline');
 
 (async () => {
 	console.log('Puppeteer Tweet Saver 1.0');
-    console.log('Author: Nakateru(2021.09.28)');
+	console.log('Author: Nakateru(2021.09.28)');
 
     //input URL
     const twiUrl = await inputUrl();
@@ -20,28 +20,32 @@ const readline = require('readline');
 	console.log('Tweet Id: ' + twiId);
 	
 	//open	browser
-    const browser = await puppeteer.launch({
-        headless: true,
-        ignoreHTTPSErrors: true,
-        defaultViewport: {width: 800, height: 600}
-    });
-    const page = await browser.newPage();
-    await page.goto(twiUrl, {
-            waitUntil: 'load',
-            timeout: 0
-        });
+	const browser = await puppeteer.launch({
+		headless: true,
+		ignoreHTTPSErrors: true,
+		defaultViewport: {width: 800, height: 600}
+	});
 	
-	//close browser
-	try{
-		await saveTweet(page, twiUrl)
-	}finally{
+	const page = await browser.newPage();
+	await page.goto(twiUrl, {
+			waitUntil: 'load',
+			timeout: 0
+		});
+
+	//save tweet
+	await saveTweet(page, twiUrl)
+	.catch(() => {
+		console.log('Failed');
+		})
+	.then(async () =>{
+		//close browser
 		await browser.close();
 		console.log('Done!');
 		process.exit();
-	}
+	});
 	
-	//----------Function--------------------
-	//input url function
+//----------Function--------------------
+//input url function
     function inputUrl() {
         const reader = readline.createInterface({
             input: process.stdin,
