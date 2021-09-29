@@ -148,7 +148,7 @@ const readline = require('readline');
 		
 		//find image on the tweet
 		var imgArr = [];
-		const imgEle = await page.$x('//a[contains(@href,"photo")]');
+		const imgEle = await page.$x('//a[contains(@href,"' + '/' + userName + '/status/' + twiId + '/photo")]');
 		
 		//if an image tweet
 		if(imgEle.length > 0){
