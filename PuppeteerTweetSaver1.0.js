@@ -6,7 +6,7 @@ const readline = require('readline');
 
 (async () => {
 	console.log('Puppeteer Tweet Saver 1.0');
-	console.log('Author: Nakateru(2021.09.28)');
+    console.log('Author: Nakateru(2021.09.28)');
 
     //input URL
     const twiUrl = await inputUrl();
@@ -44,8 +44,8 @@ const readline = require('readline');
 		process.exit();
 	});
 	
-//----------Function--------------------
-//input url function
+	//----------Function--------------------
+	//input url function
     function inputUrl() {
         const reader = readline.createInterface({
             input: process.stdin,
@@ -170,7 +170,7 @@ const readline = require('readline');
 			//console.log(imgArr);
 			
 			//set path name and creat folder
-			var pathName = namae + '(@' + userName + ') Twitter';
+			var pathName = namae + '(@' + userName + ')_Twitter';
 			pathName = pathName.replace(/[\\:*?"<>|/]/g, "");
 			mkdirFun(pathName);
 			
@@ -186,6 +186,7 @@ const readline = require('readline');
 
 		//if a video tweet
 		}else if(await isEleExist(page, 'div[data-testid="videoPlayer"]')){
+			console.log('Found a video on this tweet');
 			
 			videoUrlLink.twitter.getInfo(twiUrl, {}, (error, info) => {
 				if (error) {
@@ -194,10 +195,10 @@ const readline = require('readline');
 					//console.log(info.full_text);
 					const bestIndex = info.variants.length -2;
 					const videoUrl = info.variants[bestIndex].url.replace('?tag=12','');
-					console.log('Found a video on this tweet');
+					console.log(videoUrl);
 					
 					//set path name and creat folder
-					var pathName = namae + '(@' + userName + ') Twitter';
+					var pathName = namae + '(@' + userName + ')_Twitter';
 					pathName = pathName.replace(/[\\:*?"<>|/]/g, "");
 					mkdirFun(pathName);
 					
