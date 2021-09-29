@@ -33,16 +33,9 @@ const readline = require('readline');
 		});
 
 	//save tweet
-	await saveTweet(page, twiUrl)
-	.catch(() => {
-		console.log('Failed');
-		})
-	.then(async () =>{
-		//close browser
-		await browser.close();
-		console.log('Done!');
-		process.exit();
-	});
+	await saveTweet(page, twiUrl);
+	await browser.close();
+	console.log('Done!');
 	
 	//----------Function--------------------
 	//input url function
@@ -191,11 +184,15 @@ const readline = require('readline');
 			videoUrlLink.twitter.getInfo(twiUrl, {}, (error, info) => {
 				if (error) {
 					console.error(error);
-				} else {
+				} else {	
 					//console.log(info.full_text);
-					const bestIndex = info.variants.length -2;
-					const videoUrl = info.variants[bestIndex].url.replace('?tag=12','');
-					console.log(videoUrl);
+					
+					//select best bitrate
+					info.variants = info.variants.filter(x => x.content_type === 'video/mp4');
+					info.variants.sort((a,b) => b.bitrate - a.bitrate);
+					const videoUrl = info.variants[0].url.replace('?tag=12','');
+					//console.log(info.variants);
+					console.log('video URL: ' + videoUrl);
 					
 					//set path name and creat folder
 					var pathName = namae + '(@' + userName + ')_Twitter';
