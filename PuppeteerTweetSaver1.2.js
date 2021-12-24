@@ -9,14 +9,14 @@ const prompts = require('prompts');
     console.log('Author: Nakateru(2021.12.24)');
 
     //input URL
-    const inputted =  await prompts({
+    const inputted = await prompts({
         type: 'text',
         name: 'url',
         message: 'Please Input Tweet URL:'
     });
     const twiUrl = inputted.url;
 
-    console.time('Processing time:');
+    console.time('Processing time');
 
     //analyze url and get user name , tweet Id
     const urlInfo = analyzeUrl(twiUrl);
@@ -42,7 +42,7 @@ const prompts = require('prompts');
     //save tweet
     await saveTweet(page, twiUrl);
     await browser.close();
-    console.timeEnd('Processing time:');
+    console.timeEnd('Processing time');
     console.log('Done!');
 
     //----------Function--------------------
